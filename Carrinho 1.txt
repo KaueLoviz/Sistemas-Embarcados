@@ -1,0 +1,72 @@
+#include <Ultrasonic.h>
+Ultrasonic ultrassom(A2,A1);
+
+long distancia;
+
+int in1 = 4;
+int in2 = 5;
+int in3 = 6;
+int in4 = 7;
+int DISTANCIA = 40;
+void setup() {
+  Serial.begin(9600);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+}
+
+void loop() {
+  //autoescola();
+  distancia = ultrassom.Ranging(CM);
+  frente(distancia);
+}
+
+void autoescola(){
+// frente();
+ delay(3000);
+ esquerda();
+ delay(700);
+ direita();
+ delay(700);
+ direita();
+ delay(700);
+ tras();
+ delay(1000);
+}
+
+void frente(long distancia){
+  if(verificar(distancia)){
+    digitalWrite(in1, 1);
+    digitalWrite(in3, 1);
+    digitalWrite(in2, 0);
+    digitalWrite(in4, 0);
+ }else{
+  direita();
+  delay(500);
+ }
+}
+void tras(){
+  digitalWrite(in1, 0);
+  digitalWrite(in3, 0);
+  digitalWrite(in2, 1);
+  digitalWrite(in4, 1);
+}
+void direita(){
+  digitalWrite(in1, 1);
+  digitalWrite(in3, 0);
+  digitalWrite(in2, 0);
+  digitalWrite(in4, 0);
+}
+void esquerda(){
+  digitalWrite(in1, 0);
+  digitalWrite(in3, 0);
+  digitalWrite(in2, 1);
+  digitalWrite(in4, 0);
+}
+boolean verificar(long distancia){
+  if(distancia > DISTANCIA){
+    return true;
+  }
+  return false;
+}
